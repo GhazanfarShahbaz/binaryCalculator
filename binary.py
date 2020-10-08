@@ -112,6 +112,20 @@ def binary_division(binaryOne: int or str, binaryTwo: int or str, base = 2):
         return "0"
     return output
 
+def operation_gate(binaryOne: int or str, binaryTwo: int or str, operation, baseOne=2, baseTwo=2):
+    baseOne = int(baseOne)
+    baseTwo = int(baseTwo)
+    if baseOne != baseTwo:
+        binaryTwo = convertBase(binaryTwo, baseTwo, baseOne)
+    
+    if operation == "+":
+        return binary_addition(binaryOne, binaryTwo, baseOne)
+    elif operation == "-":
+        return binary_subtraction(binaryOne, binaryTwo, baseOne)
+    else:
+        return binary_multiplication(binaryOne, binaryTwo, baseOne)
+
+
 
 
 def greater_bit(bitOne: int or str, bitTwo: int or str, base=2) -> int or str:

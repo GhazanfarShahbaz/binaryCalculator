@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import StringVar, Label
 import binary
 import PySimpleGUI as sg
 
@@ -49,6 +48,36 @@ def getComplement():
 
     answer_three.set(f"Complement {base} of {binary.format(value)} is: {binary.format(binary.complement(value, int(base)))}")
     root.update()
+
+def binaryOperations():
+    operation = option.get()
+    valueOne = operation_entry_one.get()
+    valueTwo = operation_entry_three.get()
+    baseOne = operation_entry_two.get()
+    baseTwo= operation_entry_four.get()
+
+    if not baseOne or int(baseOne) < 2:
+        baseOne = 2
+    else:
+        baseOne = int(baseOne)
+    if not baseTwo or int(baseTwo) < 2:
+        baseTwo = 2
+    else:
+        baseTwo = int(baseTwo)
+    
+    if not binary.validityCheck(valueOne, int(baseOne)):
+        answer_four.set(f"Base {baseOne} is not valid for the following binary number, {valueOne}")
+        root.update()
+        return
+    if not binary.validityCheck(valueTwo, int(baseTwo)):
+        answer_four.set(f"Base {baseTwo} is not valid for the following binary number, {valueTwo}")
+        root.update()
+        return
+    
+    answer_four.set(f"{valueOne}{operation}{valueTwo} is: {binary.format(binary.operation_gate(valueOne, valueTwo, operation, baseOne, baseTwo))} in base {baseOne}")
+    root.update()
+    
+
 
 
 
@@ -136,8 +165,54 @@ answer_three.set(" ")
 output_three = tk.Label(root, textvariable=answer_three)
 window.create_window(250, 600, window=output_three) 
 
+# Operations
+operations = ["+", "-", "*"]
+option = tk.StringVar(root)
+option.set(operations[0])
+
+title_Four = tk.Label(root, text = "Operations with Binary numbers")
+window.create_window(250, 650, window=title_Four) 
+
+operation_label_one = tk.Label(root, text = "Binary Number One:")
+window.create_window(0, 700, window=operation_label_one)  
+
+operation_entry_one = tk.Entry(root) 
+window.create_window(150, 700, window=operation_entry_one)
+
+operation_label_two = tk.Label(root, text = "Base One:")
+window.create_window(270, 700, window=operation_label_two)  
+
+operation_entry_two = tk.Entry(root) 
+window.create_window(387, 700, window=operation_entry_two)
+
+
+operation_label_three = tk.Label(root, text = "Binary Number Two:")
+window.create_window(0, 750, window=operation_label_three)  
+
+operation_entry_three = tk.Entry(root) 
+window.create_window(150, 750, window=operation_entry_three)
+
+operation_label_four = tk.Label(root, text = "Base Two:")
+window.create_window(270, 750, window=operation_label_four)  
+
+operation_entry_four = tk.Entry(root) 
+window.create_window(387, 750, window=operation_entry_four)
+
+menu = tk.OptionMenu(root, option, *operations)
+menu.pack() 
+window.create_window(250, 800, window=menu)
+
+operation_button_one = tk.Button(root, text='Get answer', command=binaryOperations)
+complement_button_one.config(fg="red")
+window.create_window(250, 850, window=operation_button_one)
+
+answer_four = tk.StringVar()
+answer_four.set(" ")
+output_four = tk.Label(root, textvariable=answer_four)
+window.create_window(250, 900, window=output_four)
+
 
 
 exitButton = tk.Button(root, text="Quit", command=root.quit)  # Close Button
-window.create_window(250, 750, window=exitButton)
+window.create_window(250, 950, window=exitButton)
 root.mainloop()                                         # Starts the window
