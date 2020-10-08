@@ -82,7 +82,7 @@ def validityCheck(bit: str, base: int) -> bool:
 
     for x in bit:
         currNumber = 0
-        if(int(ord(x)) > 9):
+        if(int(ord(x)-KEY) > 9):
             currNumber = int(ord(x)-KEY)
         else:
             currNumber = int(x)
@@ -147,6 +147,10 @@ def complement(binary: str or int, base = 2, complement = 1) -> str:
             maxBin += chr(KEY + base-1)
 
     onesComplement = binary_subtraction(maxBin, binary, base)
+
+    while len(onesComplement) < len(binary):
+        onesComplement = f"0{onesComplement}"
+    
     if complement == 2:
         return binary_addition(onesComplement, "1", base)
     return onesComplement
